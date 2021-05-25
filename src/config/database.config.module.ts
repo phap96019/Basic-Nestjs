@@ -10,6 +10,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 })
 export class DatabaseConfig {
   constructor() {
-    console.log(`Connect to ${process.env.DATABASE}`);
+    console.log(`Connectd to ${process.env.DATABASE}`);
   }
 }
