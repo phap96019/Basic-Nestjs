@@ -28,4 +28,9 @@ export class UserService {
     const createdUser = new this.userModel(createUserDto);
     return createdUser.save();
   }
+
+  async findOne(email: string) {
+    const userExist = await this.userModel.findOne({ email: email });
+    return userExist;
+  }
 }
