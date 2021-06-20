@@ -19,8 +19,13 @@ export class AuthService {
     if (userExist !== null && isMatch) {
       const payload = {
         userId: userExist._id,
+        userRole: userExist.role,
       };
-      const accessToken = this.jwtService.sign(payload, { expiresIn: 60});
+      const key = process.env.JWTSECRET;
+      const accessToken = this.jwtService.sign(payload, {
+        secret: key,
+        expiresIn: 600000,
+      });
       return {
         accessToken,
       };
@@ -29,5 +34,17 @@ export class AuthService {
       `The email or password is incorrect`,
       HttpStatus.NOT_FOUND,
     );
+  }
+
+  validToken(token: string) {
+    const key = process.env.JWTSECRET;
+    try {
+      const isValid = this.jwtService.verify(token, {
+        secret: key,
+      });
+      return isValid;
+    } catch (error) {
+      return false;
+    }
   }
 }
